@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <title></title>
+</head>
+<body>
+	<div id="All">
+	<p><span><center><H1><div id="title"></div></H1></center></span></p>
+	<p><span><center><H2><div id="subTitle"></div></H2></center></span></p>
+		<sup><span><pre></pre></span></p>
+	<div id="Contents">
+	<p><span><center><H3><div id="ContentsTitle_01"></div></H3></center></span></p>
+	<p><span><center><H4><div id="Contents_01"></div></H4></center></span></p>
+	<p><span><center><H3><div id="ContentsTitle_02"></div></H3></center></span></p>
+	<p><span><center><H4><div id="Contents_02"></div></H4></center></span></p>
+	</div>
+	</div>
+		<p><span><pre>
+	</pre></span></p>
+    <center><input type="button" href="#" value="뒤로 가기" onclick="goBack();"/>
+	<a href="goBack();"></a></center>
+<Script src="js/jquery-3.4.1.js"></Script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript">
+var backPage = 1;
+
+
+	$(document).ready(function(){
+	first();
+});
+function first(){
+    var parameter = document.location.href.split("?");
+	var page = "1";
+	var user = "false";
+	
+	if(parameter.length>1)
+	{
+	   page = parameter[1].replace("#","");
+	   console.log("parameter.length : " + parameter.length);
+	   if(parameter.length>2)
+	   {
+			user = parameter[2].replace("#","");
+			 console.log("user : " + user);
+	   }
+	   console.log("page : " + page);
+	}
+	//for user
+	if(page=="13"){
+		$("title").html("UiPath Studio Community Version");
+		$("#title").html("UiPath Studio Community Version");
+		$("#subTitle").html("무료로 사용하는 UiPath 커뮤니티");
+		$("#Contents_01").html("UiPath Studio Community 를 무료로 사용하실 수 있습니다.");
+		$("#Contents_02").html("당신은 UiPath Studio 의 파워 유저가 될 수 있습니다.");
+		backPage = 4;
+	}
+	if(page=="1"){
+		$("title").html("UiPath Studio");
+		$("#title").html("UiPath Studio");
+		$("#subTitle").html("자동화를 쉽게 그려주는 캔버스");
+		$("#Contents_01").html("UiPath Studio로 직접 업무를 자동화해 보십시오.");
+		$("#Contents_02").html("누구나 쉽게 로봇을 설계할 수 있습니다.");
+		
+		if(user=="true"){
+			backPage = 4;
+		}else{
+			backPage = 1;
+		}
+
+	}
+	else if(page=="2"){
+		$("title").html("UiPath Studio X");
+		$("#title").html("UiPath Studio X");
+		$("#subTitle").html("현업을 위한 자동화 툴");
+		$("#Contents_01").html("a robot for every person");
+		$("#Contents_02").html("유아이패스 스튜디오 X는 2020년 4월 공개 예정입니다.");
+		if(user=="true"){
+			backPage = 4;
+		}else{
+			backPage = 1;
+		}
+	}
+	else if(page=="3"){
+		$("title").html("UiPath Robot");
+		$("#title").html("UiPath Robot");
+		$("#subTitle").html("UiPath Robot 은 UiPath Studio에서 생성된 자동화를 실행합니다.");
+		$("#ContentsTitle_01").html("Attended Robot");
+		$("#Contents_01").html("사람의 유용한 협력자로서 서비스 데스크, 헬프데스크, 콜 센터 업무를 비롯하여 인적 개입이 핵심적인 모든 업무의 속도를 높여 줍니다.");
+		$("#ContentsTitle_02").html("Unattended Robot");
+		$("#Contents_02").html("인적 개입 없이 작동하여 다양한 백오피스 업무에서 비용과 성과 측면의 이점을 극대화합니다.");	
+		if(user=="true"){
+			backPage = 4;
+		}else{
+			backPage = 1;
+		}	
+	}
+	else if(page=="4"){
+		$("title").html("UiPath Orchestrator");
+		$("#title").html("UiPath Orchestrator");
+		$("#subTitle").html("디지털 노동력을 전사적으로 안전하게 관리");
+		//$("#ContentsTitle_01").html("Attended Robot");
+		$("#Contents_01").html("UiPath Orchestrator 는 중앙 집중식 로봇 관리 대시보드로서");
+		//$("#ContentsTitle_02").html("Unattended Robot");
+		$("#Contents_02").html("대규모로 UiPath Robot을 손쉽게 배포, 보호 및 관리할 수 있도록 합니다.");		
+		if(user=="true"){
+			backPage = 4;
+		}else{
+			backPage = 1;
+		}
+	}
+
+	else if(page=="5"){
+		$("title").html("UiPath Academy");
+		$("#title").html("UiPath Academy");
+		$("#subTitle").html("온라인 무료 트레이닝으로 RPA 스킬을 배워보세요.");
+		//$("#ContentsTitle_01").html("Attended Robot");
+		$("#Contents_01").html("교육을 통해 인증된 RPA UiPath 전문가가 되어 직무 분야에서 앞서 나가십시오");
+		//$("#ContentsTitle_02").html("Unattended Robot");
+		$("#Contents_02").html("RPA 사용자를 위한 세계 최초의 온라인 공개 교육 플랫폼인 UiPath RPA Academy에 오신 것을 환영합니다.");				
+		if(user=="true"){
+			backPage = 5;
+		}else{
+			backPage = 2;
+		}
+	}	
+	else if(page=="6"){
+		$("title").html("UiPath Explorer");
+		$("#title").html("UiPath Explorer");
+		$("#subTitle").html("AI를 활용하여 최적의 자동화 영역 파악");
+		//$("#ContentsTitle_01").html("Attended Robot");
+		$("#Contents_01").html("데이터 기반의 프로세스 언터스탠딩 제품군인 Explorer를 통해 RPA 프로그램의 효과를 극대화할 수 있습니다.");
+		//$("#ContentsTitle_02").html("Unattended Robot");
+		$("#Contents_02").html("웨비나에서 데이터 기반 접근 방식을 통해 RPA의 ROI를 극대화하는 방법을 알아보십시오");		
+		if(user=="true"){
+			backPage = 5;
+		}else{
+			backPage = 2;
+		}
+	}	
+	else if(page=="7"){
+		$("title").html("Think Automation First.");
+		$("#title").html("Think Automation First.");
+		$("#subTitle").html("자동화는 업무의 미래");
+		//$("#ContentsTitle_01").html("Attended Robot");
+		$("#Contents_01").html("모든 사람이 로봇을 사용한다면 얼마나 더 많은 일을 이룰 수 있을까요?");
+		//$("#ContentsTitle_02").html("Unattended Robot");
+		$("#Contents_02").html("'자동화 우선' 사고 방식을 채택하는 것은 기업의 디지털 혁신을 실현하기 위한 첫걸음입니다.");		
+		if(user=="true"){
+			backPage = 5;
+		}else{
+			backPage = 2;
+		}
+	}	
+	else if(page=="8"){
+		$("title").html("Robotic Process Automation");
+		$("#title").html("Robotic Process Automation");
+		$("#subTitle").html("RPA 는 사용자가 수행하는 많은 작업을 모방할 수 있습니다.");
+		//$("#ContentsTitle_01").html("Attended Robot");
+		$("#Contents_01").html("RPA는 처리량이 많고 비즈니스 규칙에 기반하며 반복 가능한 업무가 자동화에 적합하며");
+		//$("#ContentsTitle_02").html("Unattended Robot");
+		$("#Contents_02").html("조직과 산업 전반에 걸쳐 정확도를 향상시키고 수익성을 높여 줍니다.");		
+		if(user=="true"){
+			backPage = 5;
+		}else{
+			backPage = 2;
+		}
+	}	
+
+	else if(page=="9"){
+		$("title").html("커넥트 엔터프라이즈 허브");
+		$("#title").html("커넥트 엔터프라이즈 허브");
+		$("#subTitle").html("자동화 아이디어를 한 데 모으고 손쉽게 관리");
+		//$("#ContentsTitle_01").html("Attended Robot");
+		$("#Contents_01").html("업무를 가장 잘 파악하고 있는 직원들로부터 자동화에 대한 아이디어를 얻어보십시오.");
+		//$("#ContentsTitle_02").html("Unattended Robot");
+		$("#Contents_02").html("Connect Enterprise Hub에 포함 된 Explorer Expert를 통해 프로세스 정의 문서를 손쉽게 작성해보세요.");		
+		if(user=="true"){
+			backPage = 6;
+		}else{
+			backPage = 3;
+		}
+	}	
+	else if(page=="10"){
+		$("title").html("UiPath Apps");
+		$("#title").html("UiPath Apps");
+		$("#subTitle").html("장시간 실행되는 비즈니스 프로세스를 원활하게 자동화");
+		//$("#ContentsTitle_01").html("Attended Robot");
+		$("#Contents_01").html("자동화 루프에 사람이 개입하여 필요한 의사 결정을 내림으로써");
+		//$("#ContentsTitle_02").html("Unattended Robot");
+		$("#Contents_02").html("예외사항, 에스컬레이션 및 승인이 필요한 복잡한 프로세스를 자동화할 수 있습니다.");		
+		if(user=="true"){
+			backPage = 6;
+		}else{
+			backPage = 3;
+		}
+	}	
+	else if(page=="11"){
+		$("title").html("UiPath Insights");
+		$("#title").html("UiPath Insights");
+		$("#subTitle").html("RPA가 비즈니스에 미치는 실제 영향 측정");
+		//$("#ContentsTitle_01").html("Attended Robot");
+		$("#Contents_01").html("로봇이 제공하는 분석 정보를 활용하고 있습니까?");
+		//$("#ContentsTitle_02").html("Unattended Robot");
+		$("#Contents_02").html("UiPath를 활용하면 유용한 분석 정보를 보다 간편하고 명확하게 확보할 수 있습니다.");		
+		if(user=="true"){
+			backPage = 6;
+		}else{
+			backPage = 3;
+		}
+	}
+	else if(page=="12"){
+		$("title").html("하이퍼오토메이션");
+		$("#title").html("하이퍼오토메이션");
+		$("#subTitle").html("Gartner가 선정한 2020년 10대 전략적 기술 트렌드 1위!");
+		//$("#ContentsTitle_01").html("Attended Robot");
+		$("#Contents_01").html("여러 프로세스 자동화 컴포넌트를 한데 모아 툴과 기술을 통합하여 업무 자동화 역량을 강화합니다.");
+		//$("#ContentsTitle_02").html("Unattended Robot");
+		$("#Contents_02").html("하이퍼오토메이션을 위한 준비가 되어 있으십니까?");		
+		if(user=="true"){
+			backPage = 6;
+		}else{
+			backPage = 3;
+		}
+	}		
+}
+
+function goBack(){
+		window.location.href="index.html?"+backPage.toString();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UiPath</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+
+</head>
+<body>
+<p class="align-content-center">
+</p>
+
+<div class="container">
+	<span><h2 align="center">UiPath 게시판</h2></span>
+	<table class="table">
+		<tbody>
+		<tr style="border-top:hidden">
+			<td style="padding:2px" align="right"><input type="search" class="form-control" placeholder="search input" id="searchingWord" style="width:70%;" onKeyDown="javascript:onKeyDown();"></input></td>
+			<td style="padding:2px" align="left"><input type="button" class="btn btn-secondary" id="Search" value="검색" onclick="javascript:Searching();"/></td>
+		</tr>
+	</tbody>
+	</table>
+	<table class="table">
+	<tbody>
+	<tr style="border-top:hidden">
+		<td align="left" style="padding:2px"><span>전체 글수 : <span align="left" id="allCount">12</span></span></td>
+		<td align="right" style="padding:2px"><span id="logout"><a href="javascript:logout();"><h6>Logout</h6></a></span></td>
+	</tr>
+	</tbody>
+	</table>
+	
+    <table class="table table-hover">
+    <thead>
+    <tr class="align-content-center">
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>날짜</th>
+        <th>조회수</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+	<tr id="tr01">
+        <td id="No_01"></td>
+        <td><a id="ALink_01" href='#'><div id="Title_01"></div></a></td>
+        <td id="User_01"></td>
+        <td id="date_01"></td>
+        <td id="count_01"></td>
+        </tr>
+	</a>	
+    <tr id="tr02">
+        <td id="No_02"></td>
+        <td><a id="ALink_02" href='#'><div id="Title_02"></div></a></td>
+        <td id="User_02"></td>
+        <td id="date_02"></td>
+        <td id="count_02"></td>
+    </tr>
+    <tr id="tr03">
+        <td id="No_03"></td>
+        <td><a id="ALink_03" href='#'><div id="Title_03"></div></a></td>
+        <td id="User_03"></td>
+        <td id="date_03"></td>
+        <td id="count_03"></td>
+    </tr>
+    <tr id="tr04">
+        <td id="No_04"></td>
+        <td><a id="ALink_04" href='#'><div id="Title_04"></div></a></td>
+        <td id="User_04"></td>
+        <td id="date_04"></td>
+        <td id="count_04"></td>
+    </tr>
+    </tbody>
+</table>
+    <hr/>
+    <!--<a class="btn btn-info">글쓰기</a>-->
+
+    <div id="divPaging">
+    <nav aria-label="...">
+
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link" href="javascript:Previous();" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <li id="page1" class="page-item active"><a class="page-link" href="javascript:Setting_01();">1</a></li>
+        <li id="page2" class="page-item"><a class="page-link" href="javascript:Setting_02();">2</a></li>
+        <li id="page3" class="page-item"><a class="page-link" href="javascript:Setting_03();">3</a></li>
+        <li class="page-item">
+            <a class="page-link" href="javascript:Next();" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+    </nav>
+    </div>
+	<center><input id="reset" type="button" href="#" value="초기화" onclick="goBack();"/>
+</div>
+
+<Script src="js/jquery-3.4.1.js"></Script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript">
+var user = false;
+
+	$(document).ready(function(){
+	$("#divPaging").show();
+	$("#reset").hide();
+	first();
+});
+
+function logout(){
+	window.location.href = "Login.html";
+}
+
+function first(){
+
+    var parameter = document.location.href.split("?");
+	var page = "1";
+	if(parameter.length>1)
+	{
+	   page = parameter[1].replace("#","");
+	   console.log("page : " + page);
+	  
+	   if(page =="4" || page =="5" || page =="6")
+	   {
+			console.log("go to user page");
+			user = true;
+	   }
+	    
+	   if(page=="1"|| page=="4")
+	   {
+			$("#page1").attr('class','page-item active');
+			$("#page2").attr('class','page-item');
+			$("#page3").attr('class','page-item');
+	   }
+	   
+	   else if(page=="2"|| page=="5")
+	   {
+			$("#page1").attr('class','page-item');
+			$("#page2").attr('class','page-item active');
+			$("#page3").attr('class','page-item');
+	   }
+	   
+	   else if(page=="3"|| page=="6")
+	   {
+			$("#page1").attr('class','page-item');
+			$("#page2").attr('class','page-item');
+			$("#page3").attr('class','page-item active');
+	   }
+	}else
+	{
+		$("#page1").attr('class','page-item active');
+		$("#page2").attr('class','page-item');
+		$("#page3").attr('class','page-item');
+	}
+
+
+	para = document.getElementsByClassName('page-item active')[0].getAttribute('id');
+	
+	
+	if(para=="page1")Setting_01();
+	if(para=="page2")Setting_02();
+	if(para=="page3")Setting_03();
+}
+
+function Previous(){
+	var para = document.getElementsByClassName('page-item active')[0].getAttribute('id');
+	if(para=="page2")Setting_01();
+	if(para=="page3")Setting_02();
+}
+
+function Next(){
+	var para = document.getElementsByClassName('page-item active')[0].getAttribute('id');
+	if(para=="page1")Setting_02();
+	if(para=="page2")Setting_03();
+}
+
+function Setting_01(){
+	$("#page1").attr('class','page-item active');
+	$("#page2").attr('class','page-item');
+	$("#page3").attr('class','page-item');
+
+	if(user)
+	{
+		$("#No_01").html("1");
+		$("#ALink_01").attr("href","Detail.html?13?"+user);
+		$("#Title_01").html("UiPath Studio Community Version");	
+		$("#User_01").html("사용자");
+		$("#date_01").html("2020.03.11");
+		$("#count_01").html("390");
+		
+		$("#No_02").html("2");
+		$("#ALink_02").attr("href","Detail.html?1?"+user);
+		$("#Title_02").html("UiPath Studio");	
+		$("#User_02").html("관리자");
+		$("#date_02").html("2020.02.27");
+		$("#count_02").html("24");	
+	}else{
+	    $("#No_01").html("1");
+		$("#ALink_01").attr("href","Detail.html?1?"+user);
+		$("#Title_01").html("UiPath Studio");		
+		$("#User_01").html("관리자");
+		$("#date_01").html("2020.02.27");
+		$("#count_01").html("24");
+		
+		$("#No_02").html("2");
+		$("#ALink_02").attr("href","Detail.html?2?"+user);
+		$("#Title_02").html("UiPath Studio X");
+		$("#User_02").html("사용자");
+		$("#date_02").html("2020.02.26");
+		$("#count_02").html("30");
+	}
+/*
+    $("#No_01").html("1");
+	$("#ALink_01").attr("href","Detail.html?1");
+	$("#Title_01").html("UiPath Studio");		
+	$("#User_01").html("관리자");
+	$("#date_01").html("2020.02.27");
+	$("#count_01").html("24");
+	
+	$("#No_02").html("2");
+	$("#ALink_02").attr("href","Detail.html?2");
+	$("#Title_02").html("UiPath Studio X");
+	$("#User_02").html("사용자");
+	$("#date_02").html("2020.02.26");
+	$("#count_02").html("30");
+	*/
+	
+	$("#No_03").html("3");
+	$("#ALink_03").attr("href","Detail.html?3?"+user);
+	$("#Title_03").html("UiPath Robot");	
+	$("#User_03").html("이재용");
+	$("#date_03").html("2020.02.25");
+	$("#count_03").html("120");
+	
+	$("#No_04").html("4");
+	$("#ALink_04").attr("href","Detail.html?4?"+user);
+	$("#Title_04").html("UiPath Orchestrator");	
+	$("#User_04").html("홍길동");
+	$("#date_04").html("2020.02.24");
+	$("#count_04").html("92");
+}
+
+function Setting_02(){
+
+	$("#page1").attr('class','page-item');
+	$("#page2").attr('class','page-item active');
+	$("#page3").attr('class','page-item');
+
+    $("#No_01").html("5");
+	$("#ALink_01").attr("href","Detail.html?5?"+user);
+	$("#Title_01").html("UiPath Academy");	
+	$("#User_01").html("LG");
+	$("#date_01").html("2020.02.23");
+	$("#count_01").html("13");
+	
+	$("#No_02").html("6");
+	$("#ALink_02").attr("href","Detail.html?6?"+user);
+	$("#Title_02").html("UiPath Explorer");
+	$("#User_02").html("이사원");
+	$("#date_02").html("2020.02.22");
+	$("#count_02").html("5");
+	
+	$("#No_03").html("7");
+	$("#ALink_03").attr("href","Detail.html?7?"+user);
+	$("#Title_03").html("Think Automation First.");	
+	$("#User_03").html("김인턴");
+	$("#date_03").html("2020.02.21");
+	$("#count_03").html("13");
+	
+	$("#No_04").html("8");
+	$("#ALink_04").attr("href","Detail.html?8?"+user);
+	$("#Title_04").html("Robotic Process Automation");		
+	$("#User_04").html("최선임");
+	$("#date_04").html("2020.02.20");
+	$("#count_04").html("67");
+}
+
+function Setting_03(){
+
+	$("#page1").attr('class','page-item');
+	$("#page2").attr('class','page-item');
+	$("#page3").attr('class','page-item active');
+
+    $("#No_01").html("9");
+	$("#ALink_01").attr("href","Detail.html?9?"+user);
+	$("#Title_01").html("커넥트 엔터프라이즈 허브");	
+	$("#User_01").html("운영팀");
+	$("#date_01").html("2020.02.19");
+	$("#count_01").html("87");
+	
+	$("#No_02").html("10");
+	$("#ALink_02").attr("href","Detail.html?10?"+user);
+	$("#Title_02").html("UiPath Apps");
+	$("#User_02").html("RPA");
+	$("#date_02").html("2020.02.18");
+	$("#count_02").html("38");
+	
+	$("#No_03").html("11");
+	$("#ALink_03").attr("href","Detail.html?11?"+user);
+	$("#Title_03").html("UiPath Insights");	
+	$("#User_03").html("CNS");
+	$("#date_03").html("2020.02.17");
+	$("#count_03").html("34");
+	
+	$("#No_04").html("12");
+	$("#ALink_04").attr("href","Detail.html?12?"+user);
+	$("#Title_04").html("하이퍼오토메이션");		
+	$("#User_04").html("강책임");
+	$("#date_04").html("2020.02.16");
+	$("#count_04").html("88");
+}
+
+function Searching()
+{
+	var searchingWord = $("#searchingWord").val().trim().toLowerCase();
+	if(searchingWord.length > 0)
+	{
+		console.log(searchingWord);
+		$("#divPaging").hide();
+		$("#tr04").hide();
+		$("#tr03").hide();
+		$("#tr02").hide();
+		$("#tr01").show();
+		$("#reset").show();
+		
+		switch (searchingWord){
+		case "uipath studio" :
+			$("#No_01").html("1");
+			$("#ALink_01").attr("href","Detail.html?1?"+user);
+			$("#Title_01").html("UiPath Studio");		
+			$("#User_01").html("관리자");
+			$("#date_01").html("2020.02.27");
+			$("#count_01").html("24");
+			break;
+		case "uipath studio x" :
+			$("#No_01").html("1");
+			$("#ALink_01").attr("href","Detail.html?2?"+user);
+			$("#Title_01").html("UiPath Studio X");
+			$("#User_01").html("사용자");
+			$("#date_01").html("2020.02.26");
+			$("#count_01").html("30");
+			break;
+		case "uipath robot" :
+			$("#No_01").html("1");
+			$("#ALink_01").attr("href","Detail.html?3?"+user);
+			$("#Title_01").html("UiPath Robot");	
+			$("#User_01").html("이재용");
+			$("#date_01").html("2020.02.25");
+			$("#count_01").html("120");	
+			break;
+		case "uipath orchestrator" :
+			$("#No_01").html("1");
+			$("#ALink_01").attr("href","Detail.html?4?"+user);
+			$("#Title_01").html("UiPath Orchestrator");	
+			$("#User_01").html("홍길동");
+			$("#date_01").html("2020.02.24");
+			$("#count_01").html("92");	
+			break;
+		case "uipath academy" :
+			$("#No_01").html("1");
+			$("#ALink_01").attr("href","Detail.html?5?"+user);
+			$("#Title_01").html("UiPath Academy");	
+			$("#User_01").html("LG");
+			$("#date_01").html("2020.02.23");
+			$("#count_01").html("13");			
+			break;
+		case "uipath explorer" :
+			$("#No_01").html("1");	
+			$("#ALink_01").attr("href","Detail.html?6?"+user);
+			$("#Title_01").html("UiPath Explorer");
+			$("#User_01").html("이사원");
+			$("#date_01").html("2020.02.22");
+			$("#count_01").html("5");		
+			break;
+		case "think automation first." :
+			$("#No_01").html("1");
+			$("#ALink_01").attr("href","Detail.html?7?"+user);
+			$("#Title_01").html("Think Automation First.");	
+			$("#User_01").html("김인턴");
+			$("#date_01").html("2020.02.21");
+			$("#count_01").html("13");			
+			break;
+		case "robotic process automation" :
+			$("#No_01").html("1");	
+			$("#ALink_01").attr("href","Detail.html?8?"+user);
+			$("#Title_01").html("Robotic Process Automation");		
+			$("#User_01").html("최선임");
+			$("#date_01").html("2020.02.20");
+			$("#count_01").html("67");			
+			break;
+		case "커넥트 엔터프라이즈 허브" :
+			$("#No_01").html("1");	
+			$("#ALink_01").attr("href","Detail.html?9?"+user);
+			$("#Title_01").html("커넥트 엔터프라이즈 허브");	
+			$("#User_01").html("운영팀");
+			$("#date_01").html("2020.02.19");
+			$("#count_01").html("87");		
+			break;			
+		case "uipath apps" :
+			$("#No_01").html("1");	
+			$("#ALink_01").attr("href","Detail.html?10?"+user);
+			$("#Title_01").html("UiPath Apps");
+			$("#User_01").html("RPA");
+			$("#date_01").html("2020.02.18");
+			$("#count_01").html("38");			
+			break;
+		case "uipath insights" :
+			$("#No_01").html("1");
+			$("#ALink_01").attr("href","Detail.html?11?"+user);
+			$("#Title_01").html("UiPath Insights");	
+			$("#User_01").html("CNS");
+			$("#date_01").html("2020.02.17");
+			$("#count_01").html("34");
+			break;			
+		case "하이퍼오토메이션" :
+			$("#No_01").html("1");
+			$("#ALink_01").attr("href","Detail.html?12?"+user);
+			$("#Title_01").html("하이퍼오토메이션");		
+			$("#User_01").html("강책임");
+			$("#date_01").html("2020.02.16");	
+			$("#count_01").html("88");	
+            break;				
+		case "uipath studio community version" :
+			$("#No_01").html("1");
+			$("#ALink_01").attr("href","Detail.html?13?"+user);
+			$("#Title_01").html("UiPath Studio Community Version");	
+			$("#User_01").html("사용자");
+			$("#date_01").html("2020.03.11");
+			$("#count_01").html("390");				
+			break;			
+		default : //일치하는 검색결과가 없을 때
+			$("#reset").show();
+			$("#tr04").hide();
+			$("#tr03").hide();
+			$("#tr02").hide();
+			$("#tr01").hide();
+		}
+		
+	}
+	else{//검색어가 없을 때
+		goBack();//초기화
+	}
+	
+}
+
+function onKeyDown(){
+	 if(event.keyCode == 13)
+     {
+		Searching();
+	}
+}
+
+function goBack(){
+	$("#reset").hide();
+	$("#divPaging").show();
+	$("#tr04").show();
+	$("#tr03").show();
+	$("#tr02").show();
+	$("#tr01").show();
+	$("#searchingWord").val("");
+	first();
+}
+</script>
+</body>
+</html>
